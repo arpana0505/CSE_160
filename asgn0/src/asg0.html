@@ -1,0 +1,118 @@
+<!-- Arpana Koilada akoilada@ucsc.edu-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CSE160 - Assignment 0</title>
+  <script src="lib/cuon-matrix-cse160.js"></script>
+  <script src="asg0.js"></script>
+  <script> window.onload = main; </script>
+  <style>
+    body {
+      background: #1a1a1a;
+      color: #eee;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h2 { margin-bottom: 10px; }
+    canvas {
+      border: 2px solid #555;
+      display: block;
+      margin-bottom: 20px;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 420px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    label { width: 80px; }
+    input[type="number"] {
+      width: 70px;
+      padding: 4px;
+      background: #2a2a2a;
+      border: 1px solid #555;
+      color: #eee;
+      font-family: monospace;
+    }
+    button {
+      padding: 6px 14px;
+      background: #444;
+      color: #eee;
+      border: 1px solid #888;
+      cursor: pointer;
+      font-family: monospace;
+    }
+    button:hover { background: #666; }
+    select {
+      padding: 4px;
+      background: #2a2a2a;
+      border: 1px solid #555;
+      color: #eee;
+      font-family: monospace;
+    }
+    hr { border-color: #444; width: 100%; }
+  </style>
+</head>
+<body>
+  <h2>CSE160 - Vector Library</h2>
+  <canvas id="myCanvas" width="400" height="400"></canvas>
+
+  <div class="controls">
+
+    <!-- V1 -->
+    <div class="row">
+      <label>v1 x:</label>
+      <input type="number" id="v1x" value="2.25" step="0.1" />
+      <label>v1 y:</label>
+      <input type="number" id="v1y" value="2.25" step="0.1" />
+    </div>
+
+    <!-- V2 -->
+    <div class="row">
+      <label>v2 x:</label>
+      <input type="number" id="v2x" value="1" step="0.1" />
+      <label>v2 y:</label>
+      <input type="number" id="v2y" value="-1" step="0.1" />
+    </div>
+
+    <!-- Draw V1 and V2 -->
+    <div class="row">
+      <button onclick="handleDrawEvent()">Draw v1 &amp; v2</button>
+    </div>
+
+    <hr />
+
+    <!-- Operations -->
+    <div class="row">
+      <label>Operation:</label>
+      <select id="operation">
+        <option value="add">Add</option>
+        <option value="sub">Subtract</option>
+        <option value="mul">Multiply</option>
+        <option value="div">Divide</option>
+        <option value="magnitude">Magnitude</option>
+        <option value="normalize">Normalize</option>
+        <option value="angle">Angle Between</option>
+        <option value="area">Area</option>
+      </select>
+      <label>Scalar:</label>
+      <input type="number" id="scalar" value="2" step="0.1" />
+    </div>
+
+    <div class="row">
+      <button onclick="handleDrawOperationEvent()">Draw Operation</button>
+    </div>
+
+  </div>
+</body>
+</html>
