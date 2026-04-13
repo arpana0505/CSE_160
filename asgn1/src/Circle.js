@@ -1,4 +1,5 @@
-// Circle.js  –  Brush shape: circle made from triangle fan
+// Circle.js
+// Brush shape: circle made from triangle fan
 class Circle {
   constructor() {
     this.position = [0, 0];
@@ -12,10 +13,10 @@ class Circle {
     gl.uniform1f(u_Size, 1.0);
 
     const [cx, cy] = this.position;
-    const r = this.size / 300;   // radius in GL units
+    const r = this.size / 300;   //radius in GL units
     const n = this.segments;
 
-    // Build triangle fan: center + n triangles
+    //Build triangle fan: center + n triangles
     const verts = new Float32Array(n * 6);
     for (let i = 0; i < n; i++) {
       const a0 = (i     / n) * Math.PI * 2;

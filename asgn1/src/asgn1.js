@@ -1,9 +1,3 @@
-// ============================================================
-//  asgn1.js  –  CSE 160 Assignment 1
-//  Arpana Koilada  akoilada@ucsc.edu
-// ============================================================
-
-// ── initShaders (normally in cuon-utils.js) ─────────────────
 function initShaders(gl, vshader, fshader) {
   const program = createProgram(gl, vshader, fshader);
   if (!program) { console.error('Failed to create program'); return false; }
@@ -37,7 +31,6 @@ function loadShader(gl, type, source) {
   return shader;
 }
 
-
 // ── GLSL Shaders ────────────────────────────────────────────
 const VSHADER_SOURCE = `
   attribute vec4 a_Position;
@@ -68,8 +61,8 @@ let g_alpha    = 1.0;
 let g_size     = 15;
 let g_segments = 10;
 
-let g_lastPos    = null;   // for gap-fill interpolation
-let g_lastAngle  = 0;      // for direction-aligned triangles
+let g_lastPos    = null;   //for gap-fill interpolation
+let g_lastAngle  = 0;      //for direction-aligned triangles
 
 // ── Entry Point ───────────────────────────────────────────────
 function main() {
@@ -115,7 +108,7 @@ function connectVariablesToGLSL() {
 function click(ev, isDrag = false) {
   const [x, y] = evToGL(ev);
 
-  // ★ Awesome: fill gaps so no holes appear during fast mouse drag
+  //Awesome: fill gaps so no holes appear during fast mouse drag
   if (isDrag && g_lastPos) {
     const [lx, ly] = g_lastPos;
     const dist = Math.hypot(x - lx, y - ly);
@@ -147,7 +140,7 @@ function addShape(x, y, isDrag, prevX, prevY) {
     shape = new Triangle();
     shape.position = [x, y];
     shape.size     = g_size;
-    // ★ Awesome: align triangle along stroke direction
+    //Awesome: align triangle along stroke direction
     if (isDrag && prevX !== undefined) {
       shape.angle = Math.atan2(y - prevY, x - prevX);
       g_lastAngle = shape.angle;
@@ -300,53 +293,53 @@ function drawMyPicture() {
   tree( 0.88,-0.55, 0.26,0.14, 0.12,0.48,0.18);
   tree( 0.70,-0.55, 0.20,0.11, 0.09,0.38,0.14);
 
-  // ══════════════════════════════════════════════════════════
-  //  INITIALS:  A  K
-  //  Gold letters against the night scene. A = Arpana, K = Koilada
-  //  Each letter built entirely from triangles.
-  // ══════════════════════════════════════════════════════════
+
+  //INITIALS:  A  K
+  //Gold letters against the night scene. A = Arpana, K = Koilada
+  //Each letter built entirely from triangles.
+
   const lc = [0.95, 0.80, 0.25]; // gold
 
-  // ── Letter A  (left half of canvas, centered around x=-0.28) ──
-  //  Two diagonal legs + a crossbar
+  // ──Letter A  (left half of canvas, centered around x=-0.28)──
+  //Two diagonal legs + a crossbar
   {
     const cx = -0.28;
     const top = 0.42, bot = -0.46;
     const sw = 0.07;  // stroke width
     const bY = -0.05; // crossbar y-range
 
-    // Left leg (diagonal rect): bottom-left to top-center
-    // We approximate as a thin parallelogram split into 2 tris
+    //Left leg (diagonal rect): bottom-left to top-center
+    //We approximate as a thin parallelogram split into 2 tris
     const llx1 = cx - 0.28, lly1 = bot;
     const llx2 = cx,        lly2 = top;
     const off = sw * 0.5;
 
-    // left leg
+    //left leg
     push(tri(llx1-off, lly1, llx1+off, lly1, llx2+off, lly2, ...lc));
     push(tri(llx1-off, lly1, llx2-off, lly2, llx2+off, lly2, ...lc));
 
-    // right leg
+    //right leg
     const rlx1 = cx + 0.28, rly1 = bot;
     push(tri(rlx1-off, rly1, rlx1+off, rly1, llx2+off, lly2, ...lc));
     push(tri(rlx1-off, rly1, llx2-off, lly2, llx2+off, lly2, ...lc));
 
-    // crossbar (horizontal bar around y = bY)
+    //crossbar (horizontal bar around y = bY)
     push(...rect(cx-0.17, bY-0.045, cx+0.17, bY+0.045, ...lc));
   }
 
-  // ── Letter K  (right half, centered around x=+0.28) ──
-  //  Vertical stem + upper diagonal arm + lower diagonal arm
+  //Letter K  (right half, x=+0.28) 
+  //Vertical stem + upper diagonal arm + lower diagonal arm
   {
     const cx = 0.28;
     const top = 0.42, bot = -0.46;
     const sw = 0.065;
-    const mid = 0.02; // y where arms meet the stem
+    const mid = 0.02; //y where arms meet the stem
 
     // Vertical stem
     push(...rect(cx-sw, bot, cx+sw, top, ...lc));
 
-    // Upper arm: from stem-mid up to top-right corner
-    // Approximate as parallelogram
+    //Upper arm: from stem-mid up to top-right corner
+    //Approximate as parallelogram
     const ax1 = cx+sw,  ay1 = mid;
     const ax2 = cx+0.30, ay2 = top;
     const off = sw * 0.55;
@@ -362,5 +355,5 @@ function drawMyPicture() {
   renderAllShapes();
 }
 
-// ── Start ─────────────────────────────────────────────────────
+//── Start ─────────────────────────────────────────────────────
 window.onload = main;

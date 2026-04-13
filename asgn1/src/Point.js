@@ -1,4 +1,5 @@
-// Point.js  –  Brush shape: GL_POINTS
+// Point.js
+// Brush shape: GL_POINTS
 class Point {
   constructor() {
     this.position = [0, 0];
@@ -7,10 +8,10 @@ class Point {
   }
 
   render() {
-    // Set color uniform
+    //Set color uniform
     gl.uniform4f(u_FragColor, ...this.color);
 
-    // Set size uniform
+    //Set size uniform
     gl.uniform1f(u_Size, this.size);
 
     // Upload single vertex

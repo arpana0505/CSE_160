@@ -1,7 +1,7 @@
 // Triangle.js  –  Brush shape: triangle
 // Supports:
-//   • Interactive brush mode: uses position/size/angle to build verts
-//   • Picture mode: uses rawVerts directly (set by buildPictureShapes)
+// - Interactive brush mode: uses position/size/angle to build verts
+// - Picture mode: uses rawVerts directly (set by buildPictureShapes)
 class Triangle {
   constructor() {
     this.position     = [0, 0];
@@ -14,7 +14,7 @@ class Triangle {
 
   render() {
     gl.uniform4f(u_FragColor, ...this.color);
-    gl.uniform1f(u_Size, 1.0);  // size handled via vertex coords
+    gl.uniform1f(u_Size, 1.0);  //size handled with vertex coords
 
     let verts;
 
@@ -22,12 +22,12 @@ class Triangle {
       // Direct coords (picture shapes or custom)
       verts = new Float32Array(this.rawVerts);
     } else {
-      // ★ Awesome: direction-aligned brush triangle
+      //Awesome: direction aligned brush triangle
       // Build an isoceles triangle pointing along this.angle
       const s = this.size / 300;   // half-size in GL units
       const a = this.angle;
 
-      // Front tip
+      //Front tip
       const fx = this.position[0] + Math.cos(a) * s * 1.4;
       const fy = this.position[1] + Math.sin(a) * s * 1.4;
 
