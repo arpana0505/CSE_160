@@ -1,0 +1,80 @@
+<!-- Arpana Koilada akoilada@ucsc.edu -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>CSE160 – Assignment 1</title>
+  <style>
+    body {
+      background: white;
+      color: black;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    canvas { display: block; cursor: crosshair; }
+    .controls { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    button { padding: 2px 8px; font-size: 0.85rem; cursor: pointer; }
+    input[type="range"] { width: 140px; }
+    #note { margin-top: 8px; font-size: 0.75rem; color: green; }
+  </style>
+</head>
+<body>
+
+<canvas id="webgl" width="500" height="500" style="background:black;"></canvas>
+
+<div class="controls">
+
+  <div class="row">
+    <button onclick="clearCanvas()">Clear Canvas</button>
+    <button onclick="drawMyPicture()">Draw My Picture (AK)</button>
+  </div>
+
+  <div class="row">
+    <span>Drawing Mode:</span>
+    <button id="btn-point"    onclick="setBrush('point')">Squares</button>
+    <button id="btn-triangle" onclick="setBrush('triangle')">Triangles</button>
+    <button id="btn-circle"   onclick="setBrush('circle')">Circles</button>
+  </div>
+
+  <div class="row"><span>Shape Color:</span></div>
+  <div class="row">
+    <label>Red</label>
+    <input type="range" id="rSlider" min="0" max="255" value="255" oninput="updateColor()">
+    <label>Green</label>
+    <input type="range" id="gSlider" min="0" max="255" value="100" oninput="updateColor()">
+    <label>Blue</label>
+    <input type="range" id="bSlider" min="0" max="255" value="200" oninput="updateColor()">
+  </div>
+
+  <div class="row">
+    <label>Shape Size:</label>
+    <input type="range" id="sizeSlider" min="1" max="100" value="15"
+           oninput="g_size = +this.value">
+    <label>(Circles) Segment Count:</label>
+    <input type="range" id="segSlider" min="3" max="64" value="10"
+           oninput="g_segments = +this.value">
+  </div>
+
+  <div class="row">
+    <label>Alpha (Awesome):</label>
+    <input type="range" id="aSlider" min="1" max="100" value="100"
+           oninput="g_alpha = +this.value / 100">
+  </div>
+
+</div>
+
+<div id="note">
+  Awesome: alpha slider, stroke-aligned triangle brush, gap interpolation during drag, AK picture with 30+ triangles
+</div>
+
+<script src="../../lib/cuon-matrix-cse160.js"></script>
+<script src="Point.js"></script>
+<script src="Triangle.js"></script>
+<script src="Circle.js"></script>
+<script src="asgn1.js"></script>
+
+</body>
+</html>
