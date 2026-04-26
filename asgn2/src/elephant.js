@@ -199,7 +199,7 @@ function drawElephant() {
     pokeEar     = Math.sin(pt * Math.PI * 4) * 30;
   }
 
-  // Animation angles (override sliders when animating)
+  // Animation angles
   let trunkBase = g_trunkBase, trunkMid = g_trunkMid, trunkTip = g_trunkTip;
   let earL = g_earLeft, earR = g_earRight;
   let tailBase = g_tailBase, tailTip = g_tailTip;
@@ -413,11 +413,8 @@ function tick(timestamp) {
 }
 
 function updateAnimationAngles() {
-  // Animation logic is inline in renderScene based on g_time
-  // (kept here as a hook for any future separation)
+  // (kept here for future separation)
 }
-
-// UI is handled via inline oninput/onclick in the HTML
 
 // ── Mouse ─────────────────────────────────────────────────────────────────────
 function setupMouse() {
