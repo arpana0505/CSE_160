@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>CSE160 – Assignment 2</title>
+  <style>
+    body {
+      background: white;
+      color: black;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    canvas { display: block; cursor: crosshair; }
+    .controls { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    button { padding: 2px 8px; font-size: 0.85rem; cursor: pointer; }
+    input[type="range"] { width: 140px; }
+    #note { margin-top: 8px; font-size: 0.75rem; color: green; }
+  </style>
+</head>
+<body>
+
+<canvas id="webgl" width="600" height="500" style="background:black;"></canvas>
+
+<div class="controls">
+
+  <div class="row">
+    <button id="btnAnim" onclick="g_animOn = !g_animOn; this.textContent = g_animOn ? 'Stop Animation' : 'Start Animation'">Start Animation</button>
+    <span id="fps" style="font-size:0.85rem; color:green;"></span>
+    <span style="font-size:0.8rem; color:#888;">Drag to rotate &nbsp;|&nbsp; Shift+Click = Poke!</span>
+  </div>
+
+  <div class="row">
+    <label>Global Rot Y:</label>
+    <input type="range" id="sliderGlobalY" min="-180" max="180" value="20" oninput="g_globalRotY = +this.value; renderScene()">
+    <label>Global Rot X:</label>
+    <input type="range" id="sliderGlobalX" min="-90" max="90" value="0" oninput="g_globalRotX = +this.value; renderScene()">
+  </div>
+
+  <div class="row">
+    <label>Trunk Base:</label>
+    <input type="range" id="sliderTrunkBase" min="-60" max="60" value="0" oninput="g_trunkBase = +this.value; renderScene()">
+    <label>Trunk Mid:</label>
+    <input type="range" id="sliderTrunkMid" min="-60" max="60" value="0" oninput="g_trunkMid = +this.value; renderScene()">
+    <label>Trunk Tip:</label>
+    <input type="range" id="sliderTrunkTip" min="-60" max="60" value="0" oninput="g_trunkTip = +this.value; renderScene()">
+  </div>
+
+  <div class="row">
+    <label>Ear Left:</label>
+    <input type="range" id="sliderEarL" min="-40" max="40" value="0" oninput="g_earLeft = +this.value; renderScene()">
+    <label>Ear Right:</label>
+    <input type="range" id="sliderEarR" min="-40" max="40" value="0" oninput="g_earRight = +this.value; renderScene()">
+    <label>Tail Base:</label>
+    <input type="range" id="sliderTailBase" min="-45" max="45" value="0" oninput="g_tailBase = +this.value; renderScene()">
+    <label>Tail Tip:</label>
+    <input type="range" id="sliderTailTip" min="-45" max="45" value="0" oninput="g_tailTip = +this.value; renderScene()">
+  </div>
+
+  <div class="row">
+    <label>FL Upper:</label>
+    <input type="range" id="sliderFLUpper" min="-40" max="40" value="0" oninput="g_legAngles[0][0] = +this.value; renderScene()">
+    <label>FL Lower:</label>
+    <input type="range" id="sliderFLLower" min="-40" max="40" value="0" oninput="g_legAngles[0][1] = +this.value; renderScene()">
+    <label>FL Foot:</label>
+    <input type="range" id="sliderFLFoot" min="-30" max="30" value="0" oninput="g_legAngles[0][2] = +this.value; renderScene()">
+  </div>
+
+  <div class="row">
+    <label>FR Upper:</label>
+    <input type="range" id="sliderFRUpper" min="-40" max="40" value="0" oninput="g_legAngles[1][0] = +this.value; renderScene()">
+    <label>FR Lower:</label>
+    <input type="range" id="sliderFRLower" min="-40" max="40" value="0" oninput="g_legAngles[1][1] = +this.value; renderScene()">
+    <label>FR Foot:</label>
+    <input type="range" id="sliderFRFoot" min="-30" max="30" value="0" oninput="g_legAngles[1][2] = +this.value; renderScene()">
+  </div>
+
+  <div class="row">
+    <label>BL Upper:</label>
+    <input type="range" id="sliderBLUpper" min="-40" max="40" value="0" oninput="g_legAngles[2][0] = +this.value; renderScene()">
+    <label>BL Lower:</label>
+    <input type="range" id="sliderBLLower" min="-40" max="40" value="0" oninput="g_legAngles[2][1] = +this.value; renderScene()">
+    <label>BL Foot:</label>
+    <input type="range" id="sliderBLFoot" min="-30" max="30" value="0" oninput="g_legAngles[2][2] = +this.value; renderScene()">
+  </div>
+
+  <div class="row">
+    <label>BR Upper:</label>
+    <input type="range" id="sliderBRUpper" min="-40" max="40" value="0" oninput="g_legAngles[3][0] = +this.value; renderScene()">
+    <label>BR Lower:</label>
+    <input type="range" id="sliderBRLower" min="-40" max="40" value="0" oninput="g_legAngles[3][1] = +this.value; renderScene()">
+    <label>BR Foot:</label>
+    <input type="range" id="sliderBRFoot" min="-30" max="30" value="0" oninput="g_legAngles[3][2] = +this.value; renderScene()">
+  </div>
+
+</div>
+
+<div id="note">
+  Elephant with 20+ parts: body, head, 2 ears, 2 tusks (cylinders), 2 eyes, 3-joint trunk chain, 2-joint tail, 4 legs x 3 joints each, toenails. Full animation, mouse rotation, shift+click poke, FPS counter.
+</div>
+
+<script src="../lib/cuon-matrix-cse160.js"></script>
+<script src="elephant.js"></script>
+<script>window.onload = main;</script>
+
+</body>
+</html>
